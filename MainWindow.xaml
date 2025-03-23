@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MikroTikMonitor"
-        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF.Controls;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        xmlns:lvccore="clr-namespace:LiveChartsCore;assembly=LiveChartsCore"
+        xmlns:lvccartesian="clr-namespace:LiveChartsCore.SkiaSharpView.WPF.CartesianChart;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="MikroTik Monitor" 
@@ -396,10 +398,18 @@
                                         <TextBlock Text="CPU History" Margin="8,0,0,0" VerticalAlignment="Center" FontWeight="Medium" />
                                     </StackPanel>
                                     
-                                    <lvc:CartesianChart Grid.Row="1" Margin="0,16,0,0" Height="150"
-                                                      Series="{Binding ChartVM.CpuSeries}"
-                                                      XAxes="{Binding ChartVM.TimeAxis}"
-                                                      YAxes="{Binding ChartVM.PercentAxis}">
+                                    <lvc:CartesianChart Grid.Row="1" Margin="0,16,0,0" Height="150">
+                                        <lvc:CartesianChart.Series>
+                                            <MultiBinding Converter="{StaticResource CollectionToSeriesMultiConverter}">
+                                                <Binding Path="ChartVM.CpuSeries"/>
+                                            </MultiBinding>
+                                        </lvc:CartesianChart.Series>
+                                        <lvc:CartesianChart.XAxes>
+                                            <Binding Path="ChartVM.TimeAxis"/>
+                                        </lvc:CartesianChart.XAxes>
+                                        <lvc:CartesianChart.YAxes>
+                                            <Binding Path="ChartVM.PercentAxis"/>
+                                        </lvc:CartesianChart.YAxes>
                                     </lvc:CartesianChart>
                                 </Grid>
                             </materialDesign:Card>
@@ -455,10 +465,18 @@
                                         <TextBlock Text="Rx Traffic" Margin="8,0,0,0" VerticalAlignment="Center" FontWeight="Medium" />
                                     </StackPanel>
                                     
-                                    <lvc:CartesianChart Grid.Row="1" Margin="0,16,0,0" Height="200"
-                                                      Series="{Binding ChartVM.RxSeries}"
-                                                      XAxes="{Binding ChartVM.TimeAxis}"
-                                                      YAxes="{Binding ChartVM.SpeedAxis}">
+                                    <lvc:CartesianChart Grid.Row="1" Margin="0,16,0,0" Height="200">
+                                        <lvc:CartesianChart.Series>
+                                            <MultiBinding Converter="{StaticResource CollectionToSeriesMultiConverter}">
+                                                <Binding Path="ChartVM.RxSeries"/>
+                                            </MultiBinding>
+                                        </lvc:CartesianChart.Series>
+                                        <lvc:CartesianChart.XAxes>
+                                            <Binding Path="ChartVM.TimeAxis"/>
+                                        </lvc:CartesianChart.XAxes>
+                                        <lvc:CartesianChart.YAxes>
+                                            <Binding Path="ChartVM.SpeedAxis"/>
+                                        </lvc:CartesianChart.YAxes>
                                     </lvc:CartesianChart>
                                 </Grid>
                             </materialDesign:Card>
@@ -475,10 +493,18 @@
                                         <TextBlock Text="Tx Traffic" Margin="8,0,0,0" VerticalAlignment="Center" FontWeight="Medium" />
                                     </StackPanel>
                                     
-                                    <lvc:CartesianChart Grid.Row="1" Margin="0,16,0,0" Height="200"
-                                                      Series="{Binding ChartVM.TxSeries}"
-                                                      XAxes="{Binding ChartVM.TimeAxis}"
-                                                      YAxes="{Binding ChartVM.SpeedAxis}">
+                                    <lvc:CartesianChart Grid.Row="1" Margin="0,16,0,0" Height="200">
+                                        <lvc:CartesianChart.Series>
+                                            <MultiBinding Converter="{StaticResource CollectionToSeriesMultiConverter}">
+                                                <Binding Path="ChartVM.TxSeries"/>
+                                            </MultiBinding>
+                                        </lvc:CartesianChart.Series>
+                                        <lvc:CartesianChart.XAxes>
+                                            <Binding Path="ChartVM.TimeAxis"/>
+                                        </lvc:CartesianChart.XAxes>
+                                        <lvc:CartesianChart.YAxes>
+                                            <Binding Path="ChartVM.SpeedAxis"/>
+                                        </lvc:CartesianChart.YAxes>
                                     </lvc:CartesianChart>
                                 </Grid>
                             </materialDesign:Card>

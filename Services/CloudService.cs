@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 using MikroTikMonitor.Models;
@@ -207,11 +208,18 @@ namespace MikroTikMonitor.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    var sites = JsonConvert.DeserializeObject<List<CloudSite>>(responseData);
+                    var sitesDtos = JsonConvert.DeserializeObject<List<CloudSiteDto>>(responseData);
+                    
+                    if (sitesDtos == null)
+                    {
+                        return new List<CloudSite>();
+                    }
+                    
+                    var sites = sitesDtos.Select(dto => CloudSite.FromDto(dto)).ToList();
                     
                     log.Info($"Successfully retrieved {sites.Count} sites from MikroTik Cloud");
                     
-                    return sites ?? new List<CloudSite>();
+                    return sites;
                 }
                 
                 log.Error($"Failed to get sites from MikroTik Cloud: {response.StatusCode}");
@@ -246,7 +254,14 @@ namespace MikroTikMonitor.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    var site = JsonConvert.DeserializeObject<CloudSite>(responseData);
+                    var siteDto = JsonConvert.DeserializeObject<CloudSiteDto>(responseData);
+                    
+                    if (siteDto == null)
+                    {
+                        return null;
+                    }
+                    
+                    var site = CloudSite.FromDto(siteDto);
                     
                     log.Info($"Successfully retrieved site {siteId} from MikroTik Cloud");
                     
@@ -280,8 +295,31 @@ namespace MikroTikMonitor.Services
                 
                 log.Info($"Creating site {site.Name} in MikroTik Cloud");
                 
+                // Convert to DTO for serialization
+                var siteDto = new CloudSiteDto
+                {
+                    Id = site.Id,
+                    Name = site.Name,
+                    Description = site.Description,
+                    Location = site.Location,
+                    ContactName = site.ContactName,
+                    ContactEmail = site.ContactEmail,
+                    ContactPhone = site.ContactPhone,
+                    Address = site.Address,
+                    City = site.City,
+                    State = site.State,
+                    PostalCode = site.PostalCode,
+                    Country = site.Country,
+                    CreatedAt = site.CreatedAt,
+                    UpdatedAt = site.UpdatedAt,
+                    Status = site.Status,
+                    IsActive = site.IsActive,
+                    Tags = site.Tags,
+                    Notes = site.Notes
+                };
+                
                 var content = new StringContent(
-                    JsonConvert.SerializeObject(site),
+                    JsonConvert.SerializeObject(siteDto),
                     Encoding.UTF8,
                     "application/json");
                 
@@ -290,7 +328,14 @@ namespace MikroTikMonitor.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    var createdSite = JsonConvert.DeserializeObject<CloudSite>(responseData);
+                    var createdSiteDto = JsonConvert.DeserializeObject<CloudSiteDto>(responseData);
+                    
+                    if (createdSiteDto == null)
+                    {
+                        return null;
+                    }
+                    
+                    var createdSite = CloudSite.FromDto(createdSiteDto);
                     
                     log.Info($"Successfully created site {createdSite.Id} in MikroTik Cloud");
                     
@@ -324,8 +369,31 @@ namespace MikroTikMonitor.Services
                 
                 log.Info($"Updating site {site.Id} in MikroTik Cloud");
                 
+                // Convert to DTO for serialization
+                var siteDto = new CloudSiteDto
+                {
+                    Id = site.Id,
+                    Name = site.Name,
+                    Description = site.Description,
+                    Location = site.Location,
+                    ContactName = site.ContactName,
+                    ContactEmail = site.ContactEmail,
+                    ContactPhone = site.ContactPhone,
+                    Address = site.Address,
+                    City = site.City,
+                    State = site.State,
+                    PostalCode = site.PostalCode,
+                    Country = site.Country,
+                    CreatedAt = site.CreatedAt,
+                    UpdatedAt = site.UpdatedAt,
+                    Status = site.Status,
+                    IsActive = site.IsActive,
+                    Tags = site.Tags,
+                    Notes = site.Notes
+                };
+                
                 var content = new StringContent(
-                    JsonConvert.SerializeObject(site),
+                    JsonConvert.SerializeObject(siteDto),
                     Encoding.UTF8,
                     "application/json");
                 
@@ -334,7 +402,14 @@ namespace MikroTikMonitor.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    var updatedSite = JsonConvert.DeserializeObject<CloudSite>(responseData);
+                    var updatedSiteDto = JsonConvert.DeserializeObject<CloudSiteDto>(responseData);
+                    
+                    if (updatedSiteDto == null)
+                    {
+                        return null;
+                    }
+                    
+                    var updatedSite = CloudSite.FromDto(updatedSiteDto);
                     
                     log.Info($"Successfully updated site {site.Id} in MikroTik Cloud");
                     
@@ -404,11 +479,18 @@ namespace MikroTikMonitor.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    var devices = JsonConvert.DeserializeObject<List<CloudDevice>>(responseData);
+                    var deviceDtos = JsonConvert.DeserializeObject<List<CloudDeviceDto>>(responseData);
+                    
+                    if (deviceDtos == null)
+                    {
+                        return new List<CloudDevice>();
+                    }
+                    
+                    var devices = deviceDtos.Select(dto => CloudDevice.FromDto(dto)).ToList();
                     
                     log.Info($"Successfully retrieved {devices.Count} devices from MikroTik Cloud");
                     
-                    return devices ?? new List<CloudDevice>();
+                    return devices;
                 }
                 
                 log.Error($"Failed to get devices from MikroTik Cloud: {response.StatusCode}");
@@ -443,7 +525,14 @@ namespace MikroTikMonitor.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    var device = JsonConvert.DeserializeObject<CloudDevice>(responseData);
+                    var deviceDto = JsonConvert.DeserializeObject<CloudDeviceDto>(responseData);
+                    
+                    if (deviceDto == null)
+                    {
+                        return null;
+                    }
+                    
+                    var device = CloudDevice.FromDto(deviceDto);
                     
                     log.Info($"Successfully retrieved device {deviceId} from MikroTik Cloud");
                     
@@ -477,8 +566,33 @@ namespace MikroTikMonitor.Services
                 
                 log.Info($"Updating device {device.Id} in MikroTik Cloud");
                 
+                // Convert to DTO for serialization
+                var deviceDto = new CloudDeviceDto
+                {
+                    Id = device.Id,
+                    Name = device.Name,
+                    SerialNumber = device.SerialNumber,
+                    MacAddress = device.MacAddress,
+                    IpAddress = device.IpAddress,
+                    Model = device.Model,
+                    BoardName = device.BoardName,
+                    FirmwareVersion = device.FirmwareVersion,
+                    IsOnline = device.IsOnline,
+                    LastSeen = device.LastSeen,
+                    SiteId = device.SiteId,
+                    SiteName = device.SiteName,
+                    OwnerEmail = device.OwnerEmail,
+                    CreatedAt = device.CreatedAt,
+                    UpdatedAt = device.UpdatedAt,
+                    LastConfigBackup = device.LastConfigBackup,
+                    LastFirmwareCheck = device.LastFirmwareCheck,
+                    IsMonitored = device.IsMonitored,
+                    Tags = device.Tags,
+                    Notes = device.Notes
+                };
+                
                 var content = new StringContent(
-                    JsonConvert.SerializeObject(device),
+                    JsonConvert.SerializeObject(deviceDto),
                     Encoding.UTF8,
                     "application/json");
                 
@@ -681,11 +795,18 @@ namespace MikroTikMonitor.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    var users = JsonConvert.DeserializeObject<List<CloudVpnUser>>(responseData);
+                    var vpnUserDtos = JsonConvert.DeserializeObject<List<CloudVpnUserDto>>(responseData);
                     
-                    log.Info($"Successfully retrieved {users.Count} VPN users for device {deviceId}");
+                    if (vpnUserDtos == null)
+                    {
+                        return new List<CloudVpnUser>();
+                    }
                     
-                    return users ?? new List<CloudVpnUser>();
+                    var vpnUsers = vpnUserDtos.Select(dto => CloudVpnUser.FromDto(dto)).ToList();
+                    
+                    log.Info($"Successfully retrieved {vpnUsers.Count} VPN users for device {deviceId}");
+                    
+                    return vpnUsers;
                 }
                 
                 log.Error($"Failed to get VPN users for device {deviceId}: {response.StatusCode}");
@@ -721,8 +842,28 @@ namespace MikroTikMonitor.Services
                 
                 log.Info($"Creating VPN user {user.Username} for device {deviceId} in MikroTik Cloud");
                 
+                // Convert to DTO for serialization
+                var vpnUserDto = new CloudVpnUserDto
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Password = user.Password,
+                    Email = user.Email,
+                    FullName = user.FullName,
+                    IsActive = user.IsActive,
+                    ExpirationDate = user.ExpirationDate,
+                    DeviceId = user.DeviceId,
+                    CreatedAt = user.CreatedAt,
+                    UpdatedAt = user.UpdatedAt,
+                    LastLoginAt = user.LastLoginAt,
+                    IsConnected = user.IsConnected,
+                    ConnectionInfo = user.ConnectionInfo,
+                    Notes = user.Notes,
+                    Tags = user.Tags
+                };
+                
                 var content = new StringContent(
-                    JsonConvert.SerializeObject(user),
+                    JsonConvert.SerializeObject(vpnUserDto),
                     Encoding.UTF8,
                     "application/json");
                 
@@ -731,7 +872,14 @@ namespace MikroTikMonitor.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    var createdUser = JsonConvert.DeserializeObject<CloudVpnUser>(responseData);
+                    var createdUserDto = JsonConvert.DeserializeObject<CloudVpnUserDto>(responseData);
+                    
+                    if (createdUserDto == null)
+                    {
+                        return null;
+                    }
+                    
+                    var createdUser = CloudVpnUser.FromDto(createdUserDto);
                     
                     log.Info($"Successfully created VPN user {user.Username} for device {deviceId}");
                     
@@ -771,8 +919,28 @@ namespace MikroTikMonitor.Services
                 
                 log.Info($"Updating VPN user {user.Id} for device {deviceId} in MikroTik Cloud");
                 
+                // Convert to DTO for serialization
+                var vpnUserDto = new CloudVpnUserDto
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Password = user.Password,
+                    Email = user.Email,
+                    FullName = user.FullName,
+                    IsActive = user.IsActive,
+                    ExpirationDate = user.ExpirationDate,
+                    DeviceId = user.DeviceId,
+                    CreatedAt = user.CreatedAt,
+                    UpdatedAt = user.UpdatedAt,
+                    LastLoginAt = user.LastLoginAt,
+                    IsConnected = user.IsConnected,
+                    ConnectionInfo = user.ConnectionInfo,
+                    Notes = user.Notes,
+                    Tags = user.Tags
+                };
+                
                 var content = new StringContent(
-                    JsonConvert.SerializeObject(user),
+                    JsonConvert.SerializeObject(vpnUserDto),
                     Encoding.UTF8,
                     "application/json");
                 
