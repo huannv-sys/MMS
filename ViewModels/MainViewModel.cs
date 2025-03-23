@@ -12,6 +12,7 @@ using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
 using MikroTikMonitor.Models;
 using MikroTikMonitor.Services;
+using Timer = System.Timers.Timer;
 
 namespace MikroTikMonitor.ViewModels
 {
