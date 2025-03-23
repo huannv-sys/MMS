@@ -1,3 +1,0 @@
-modules = ["dotnet-8.0"]
-[nix]
-channel = "stable-24_05"

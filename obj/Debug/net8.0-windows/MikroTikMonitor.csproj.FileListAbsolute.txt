@@ -8,3 +8,12 @@
 /home/runner/workspace/obj/Debug/net8.0-windows/MikroTikMonitor_MarkupCompile.cache
 /home/runner/workspace/obj/Debug/net8.0-windows/MikroTikMonitor_MarkupCompile.lref
 /home/runner/workspace/obj/Debug/net8.0-windows/LegacyMainWindow.g.cs
+C:\Users\huant\Downloads\New folder\WindowsMonitor\obj\Debug\net8.0-windows\MikroTikMonitor.csproj.AssemblyReference.cache
+C:\Users\huant\Downloads\New folder\WindowsMonitor\obj\Debug\net8.0-windows\LegacyMainWindow.g.cs
+C:\Users\huant\Downloads\New folder\WindowsMonitor\obj\Debug\net8.0-windows\LiveChartsTest.g.cs
+C:\Users\huant\Downloads\New folder\WindowsMonitor\obj\Debug\net8.0-windows\Windows\MainWindow.g.cs
+C:\Users\huant\Downloads\New folder\WindowsMonitor\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\huant\Downloads\New folder\WindowsMonitor\obj\Debug\net8.0-windows\MikroTikMonitor_Content.g.cs
+C:\Users\huant\Downloads\New folder\WindowsMonitor\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\huant\Downloads\New folder\WindowsMonitor\obj\Debug\net8.0-windows\MikroTikMonitor_MarkupCompile.cache
+C:\Users\huant\Downloads\New folder\WindowsMonitor\obj\Debug\net8.0-windows\MikroTikMonitor_MarkupCompile.lref

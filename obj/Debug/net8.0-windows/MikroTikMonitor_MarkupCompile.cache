@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-/home/runner/workspace/obj/Debug/net8.0-windows/
+C:\Users\huant\Downloads\New folder\WindowsMonitor\obj\Debug\net8.0-windows\
 MikroTikMonitor
 none
 false
-TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-/home/runner/workspace/App.xaml
-32136433298
+TRACE;RELEASE;NET;NET8_0;NETCOREAPP
+C:\Users\huant\Downloads\New folder\WindowsMonitor\App.xaml
+31082420537
 21064356979
-53-1907893014
-227115654018
-LegacyMainWindow.xaml;LiveChartsTest.xaml;Windows/MainWindow.xaml;
+64645137331
+454479034902
+LegacyMainWindow.xaml;LiveChartsTest.xaml;Windows\MainWindow.xaml;
 
 True
 
