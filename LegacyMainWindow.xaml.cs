@@ -7,9 +7,9 @@ using System;
 namespace MikroTikMonitor
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for LegacyMainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LegacyMainWindow : Window
     {
         private readonly MainViewModel _viewModel;
 
@@ -29,10 +29,10 @@ namespace MikroTikMonitor
         public Func<double, string> SpeedFormatter => FormatSpeed;
 
         /// <summary>
-        /// Initializes a new instance of the MainWindow class
+        /// Initializes a new instance of the LegacyMainWindow class
         /// </summary>
         /// <param name="viewModel">The view model for this window</param>
-        public MainWindow(MainViewModel viewModel)
+        public LegacyMainWindow(MainViewModel viewModel)
         {
             _viewModel = viewModel ?? throw new System.ArgumentNullException(nameof(viewModel));
             DataContext = _viewModel;

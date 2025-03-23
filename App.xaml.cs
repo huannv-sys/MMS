@@ -64,7 +64,7 @@ namespace MikroTikMonitor
             services.AddTransient<SettingsViewModel>();
             
             // Register Windows
-            services.AddTransient<MainWindow>();
+            services.AddTransient<MikroTikMonitor.Windows.MainWindow>();
             services.AddTransient<AddDeviceWindow>();
             services.AddTransient<AddSiteWindow>();
             services.AddTransient<SettingsWindow>();
@@ -82,7 +82,7 @@ namespace MikroTikMonitor
             
             try
             {
-                var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+                var mainWindow = _serviceProvider.GetRequiredService<MikroTikMonitor.Windows.MainWindow>();
                 mainWindow.Show();
                 
                 // Start background worker service
