@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0066CC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00AAFF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="45" fill="url(#grad1)"/>
+  
+  <!-- Network Icon Base -->
+  <circle cx="128" cy="128" r="85" fill="#FFFFFF" fill-opacity="0.1" stroke="#FFFFFF" stroke-width="6"/>
+  
+  <!-- Router Symbol -->
+  <rect x="98" y="98" width="60" height="60" rx="8" fill="#FFFFFF"/>
+  
+  <!-- Network Lines -->
+  <line x1="128" y1="50" x2="128" y2="90" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  <line x1="128" y1="166" x2="128" y2="206" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  <line x1="50" y1="128" x2="90" y2="128" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  <line x1="166" y1="128" x2="206" y2="128" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Signal Indicators -->
+  <circle cx="60" cy="60" r="12" fill="#FFFFFF"/>
+  <circle cx="196" cy="60" r="12" fill="#FFFFFF"/>
+  <circle cx="60" cy="196" r="12" fill="#FFFFFF"/>
+  <circle cx="196" cy="196" r="12" fill="#FFFFFF"/>
+
+  <!-- Status Lights -->
+  <circle cx="108" cy="118" r="8" fill="#4CAF50"/>
+  <circle cx="128" cy="118" r="8" fill="#FFC107"/>
+  <circle cx="148" cy="118" r="8" fill="#F44336"/>
+</svg>
