@@ -2,8 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using LiveChartsCore;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
 using MikroTikMonitor.Models;
 using MikroTikMonitor.Services;
 
@@ -21,6 +27,8 @@ namespace MikroTikMonitor.ViewModels
         private RouterDevice _selectedRouter;
         private bool _isConnecting;
         private string _statusMessage;
+        private ChartViewModel _chartVM;
+        private System.Timers.Timer _updateTimer;
         
         /// <summary>
         /// Gets the routers as an observable collection
@@ -52,6 +60,15 @@ namespace MikroTikMonitor.ViewModels
         {
             get => _statusMessage;
             set => SetProperty(ref _statusMessage, value);
+        }
+        
+        /// <summary>
+        /// Gets the chart view model
+        /// </summary>
+        public ChartViewModel ChartVM
+        {
+            get => _chartVM;
+            private set => SetProperty(ref _chartVM, value);
         }
         
         /// <summary>
@@ -110,6 +127,9 @@ namespace MikroTikMonitor.ViewModels
             ConnectCommand = new RelayCommand(ExecuteConnectCommand, CanExecuteConnectCommand);
             DisconnectCommand = new RelayCommand(ExecuteDisconnectCommand, CanExecuteDisconnectCommand);
             RefreshCommand = new RelayCommand(ExecuteRefreshCommand, CanExecuteRefreshCommand);
+            
+            // Initialize chart view model
+            ChartVM = new ChartViewModel();
             
             // Set initial status
             StatusMessage = "Ready";
@@ -208,6 +228,9 @@ namespace MikroTikMonitor.ViewModels
                     await _routerApiService.GetDhcpLeasesAsync(SelectedRouter);
                     await _routerApiService.GetLogEntriesAsync(SelectedRouter, 100);
                     
+                    // Start update timer for charts
+                    StartUpdateTimer();
+                    
                     // Update command states
                     OnPropertyChanged(nameof(SelectedRouter));
                 }
@@ -245,6 +268,9 @@ namespace MikroTikMonitor.ViewModels
                 
             _routerApiService.Disconnect(SelectedRouter);
             StatusMessage = "Disconnected";
+            
+            // Stop update timer
+            StopUpdateTimer();
             
             // Update command states
             OnPropertyChanged(nameof(SelectedRouter));
@@ -328,6 +354,108 @@ namespace MikroTikMonitor.ViewModels
                 (DisconnectCommand as RelayCommand)?.RaiseCanExecuteChanged();
                 (RefreshCommand as RelayCommand)?.RaiseCanExecuteChanged();
             }
+        }
+        
+        /// <summary>
+        /// Starts the update timer for chart data
+        /// </summary>
+        private void StartUpdateTimer()
+        {
+            // Stop any existing timer
+            StopUpdateTimer();
+            
+            // Create and configure timer
+            _updateTimer = new System.Timers.Timer(1000); // Update every second
+            _updateTimer.Elapsed += OnUpdateTimerElapsed;
+            _updateTimer.AutoReset = true;
+            _updateTimer.Start();
+        }
+        
+        /// <summary>
+        /// Stops the update timer
+        /// </summary>
+        private void StopUpdateTimer()
+        {
+            if (_updateTimer != null)
+            {
+                _updateTimer.Stop();
+                _updateTimer.Elapsed -= OnUpdateTimerElapsed;
+                _updateTimer.Dispose();
+                _updateTimer = null;
+            }
+            
+            // Clear chart data
+            if (ChartVM != null)
+            {
+                // Need to run on UI thread
+                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                {
+                    ChartVM.ClearChartData();
+                });
+            }
+        }
+        
+        /// <summary>
+        /// Handler for timer elapsed event
+        /// </summary>
+        private async void OnUpdateTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (SelectedRouter == null || !SelectedRouter.IsConnected)
+                return;
+                
+            try
+            {
+                // Get resource usage data
+                await _routerApiService.GetSystemResourcesAsync(SelectedRouter);
+                await _routerApiService.GetInterfaceStatisticsAsync(SelectedRouter);
+                
+                // Update chart data
+                UpdateChartData();
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't show to user (it's just a background update)
+                System.Diagnostics.Debug.WriteLine($"Error updating chart data: {ex.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// Updates chart data from current router state
+        /// </summary>
+        private void UpdateChartData()
+        {
+            if (SelectedRouter == null || ChartVM == null)
+                return;
+                
+            // Need to run on UI thread
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                double timestamp = DateTime.Now.Subtract(DateTime.Today).TotalSeconds;
+                
+                // CPU and memory chart data
+                if (SelectedRouter.ResourceHistory.Count > 0)
+                {
+                    var latestResource = SelectedRouter.ResourceHistory[SelectedRouter.ResourceHistory.Count - 1];
+                    ChartVM.UpdateCpuData(timestamp, latestResource.CpuUsage);
+                    ChartVM.UpdateMemoryData(timestamp, latestResource.MemoryUsage);
+                }
+                
+                // Traffic charts
+                if (SelectedRouter.Interfaces.Count > 0)
+                {
+                    // Get the first interface that has stats (typically ether1)
+                    var iface = SelectedRouter.Interfaces.FirstOrDefault();
+                    if (iface != null)
+                    {
+                        // Convert to bps (bits per second)
+                        double rxRate = iface.RxBytesPerSecond * 8;
+                        double txRate = iface.TxBytesPerSecond * 8;
+                        
+                        ChartVM.UpdateRxData(timestamp, rxRate);
+                        ChartVM.UpdateTxData(timestamp, txRate);
+                    }
+                }
+            });
         }
     }
     

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MikroTikMonitor"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="MikroTik Monitor" 
@@ -396,20 +396,10 @@
                                         <TextBlock Text="CPU History" Margin="8,0,0,0" VerticalAlignment="Center" FontWeight="Medium" />
                                     </StackPanel>
                                     
-                                    <lvc:CartesianChart Grid.Row="1" Margin="0,16,0,0" Height="150">
-                                        <lvc:CartesianChart.Series>
-                                            <lvc:LineSeries Title="CPU" 
-                                                            Stroke="{DynamicResource CpuChartBrush}" 
-                                                            Fill="Transparent" 
-                                                            PointGeometry="{x:Null}"
-                                                            LineSmoothness="0.5" />
-                                        </lvc:CartesianChart.Series>
-                                        <lvc:CartesianChart.AxisX>
-                                            <lvc:Axis ShowLabels="False" />
-                                        </lvc:CartesianChart.AxisX>
-                                        <lvc:CartesianChart.AxisY>
-                                            <lvc:Axis MinValue="0" MaxValue="100" LabelFormatter="{Binding PercentFormatter}" />
-                                        </lvc:CartesianChart.AxisY>
+                                    <lvc:CartesianChart Grid.Row="1" Margin="0,16,0,0" Height="150"
+                                                      Series="{Binding ChartVM.CpuSeries}"
+                                                      XAxes="{Binding ChartVM.TimeAxis}"
+                                                      YAxes="{Binding ChartVM.PercentAxis}">
                                     </lvc:CartesianChart>
                                 </Grid>
                             </materialDesign:Card>
@@ -465,20 +455,10 @@
                                         <TextBlock Text="Rx Traffic" Margin="8,0,0,0" VerticalAlignment="Center" FontWeight="Medium" />
                                     </StackPanel>
                                     
-                                    <lvc:CartesianChart Grid.Row="1" Margin="0,16,0,0" Height="200">
-                                        <lvc:CartesianChart.Series>
-                                            <lvc:LineSeries Title="Rx" 
-                                                            Stroke="{DynamicResource RxChartBrush}" 
-                                                            Fill="Transparent"
-                                                            PointGeometry="{x:Null}"
-                                                            LineSmoothness="0.5" />
-                                        </lvc:CartesianChart.Series>
-                                        <lvc:CartesianChart.AxisX>
-                                            <lvc:Axis ShowLabels="False" />
-                                        </lvc:CartesianChart.AxisX>
-                                        <lvc:CartesianChart.AxisY>
-                                            <lvc:Axis LabelFormatter="{Binding SpeedFormatter}" />
-                                        </lvc:CartesianChart.AxisY>
+                                    <lvc:CartesianChart Grid.Row="1" Margin="0,16,0,0" Height="200"
+                                                      Series="{Binding ChartVM.RxSeries}"
+                                                      XAxes="{Binding ChartVM.TimeAxis}"
+                                                      YAxes="{Binding ChartVM.SpeedAxis}">
                                     </lvc:CartesianChart>
                                 </Grid>
                             </materialDesign:Card>
@@ -495,20 +475,10 @@
                                         <TextBlock Text="Tx Traffic" Margin="8,0,0,0" VerticalAlignment="Center" FontWeight="Medium" />
                                     </StackPanel>
                                     
-                                    <lvc:CartesianChart Grid.Row="1" Margin="0,16,0,0" Height="200">
-                                        <lvc:CartesianChart.Series>
-                                            <lvc:LineSeries Title="Tx" 
-                                                            Stroke="{DynamicResource TxChartBrush}" 
-                                                            Fill="Transparent"
-                                                            PointGeometry="{x:Null}"
-                                                            LineSmoothness="0.5" />
-                                        </lvc:CartesianChart.Series>
-                                        <lvc:CartesianChart.AxisX>
-                                            <lvc:Axis ShowLabels="False" />
-                                        </lvc:CartesianChart.AxisX>
-                                        <lvc:CartesianChart.AxisY>
-                                            <lvc:Axis LabelFormatter="{Binding SpeedFormatter}" />
-                                        </lvc:CartesianChart.AxisY>
+                                    <lvc:CartesianChart Grid.Row="1" Margin="0,16,0,0" Height="200"
+                                                      Series="{Binding ChartVM.TxSeries}"
+                                                      XAxes="{Binding ChartVM.TimeAxis}"
+                                                      YAxes="{Binding ChartVM.SpeedAxis}">
                                     </lvc:CartesianChart>
                                 </Grid>
                             </materialDesign:Card>

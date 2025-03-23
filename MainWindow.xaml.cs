@@ -1,7 +1,7 @@
 using System.Windows;
 using MikroTikMonitor.ViewModels;
-using LiveCharts;
-using LiveCharts.Wpf;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using System;
 
 namespace MikroTikMonitor
