@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace MikroTikMonitor.Models
 {
-    public class NetworkInterface : INotifyPropertyChanged
+    public class NetworkInterface : ModelBase
     {
         private string _id;
         private string _name;
@@ -24,6 +25,10 @@ namespace MikroTikMonitor.Models
         private long _txErrors;
         private long _txDrops;
         private long _rxDrops;
+        private ObservableCollection<InterfaceTraffic> _trafficHistory = new ObservableCollection<InterfaceTraffic>();
+        private DateTime _lastUpdated;
+        private long _speed;
+        private bool _isDynamic;
         private string _comment;
         private double _linkSpeed;
         private string _linkType;
@@ -168,24 +173,29 @@ namespace MikroTikMonitor.Models
             get => _parent; 
             set => SetProperty(ref _parent, value); 
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        
+        public ObservableCollection<InterfaceTraffic> TrafficHistory 
+        { 
+            get => _trafficHistory; 
+            set => SetProperty(ref _trafficHistory, value); 
         }
-
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
-            {
-                return false;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
+        
+        public DateTime LastUpdated 
+        { 
+            get => _lastUpdated; 
+            set => SetProperty(ref _lastUpdated, value); 
+        }
+        
+        public long Speed 
+        { 
+            get => _speed; 
+            set => SetProperty(ref _speed, value); 
+        }
+        
+        public bool IsDynamic 
+        { 
+            get => _isDynamic; 
+            set => SetProperty(ref _isDynamic, value); 
         }
     }
 }

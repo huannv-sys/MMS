@@ -7,7 +7,7 @@ namespace MikroTikMonitor.Models
     /// <summary>
     /// Represents system information for a MikroTik router
     /// </summary>
-    public class SystemInfo : INotifyPropertyChanged
+    public class SystemInfo : ModelBase
     {
         private string _model;
         private string _architecture;
@@ -390,36 +390,6 @@ namespace MikroTikMonitor.Models
             return $"{bytes / (double)TB:0.0} TiB";
         }
         
-        /// <summary>
-        /// Event that is fired when a property changes
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-        
-        /// <summary>
-        /// Set a property value and raise the PropertyChanged event if the value changed
-        /// </summary>
-        /// <typeparam name="T">The type of the property</typeparam>
-        /// <param name="storage">The backing field for the property</param>
-        /// <param name="value">The new value</param>
-        /// <param name="propertyName">The name of the property</param>
-        /// <returns>True if the value was changed, otherwise false</returns>
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(storage, value))
-                return false;
-                
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-        
-        /// <summary>
-        /// Raise the PropertyChanged event
-        /// </summary>
-        /// <param name="propertyName">The name of the property that changed</param>
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+
     }
 }

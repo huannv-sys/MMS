@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace MikroTikMonitor.Models
 {
-    public class ResourceUsage : INotifyPropertyChanged
+    public class ResourceUsage : ModelBase
     {
         private DateTime _timestamp;
         private double _cpuUsage;
@@ -48,25 +48,6 @@ namespace MikroTikMonitor.Models
         { 
             get => _voltage; 
             set => SetProperty(ref _voltage, value); 
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
-            {
-                return false;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
         }
     }
 }

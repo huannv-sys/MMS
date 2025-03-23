@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace MikroTikMonitor.Models
 {
-    public class TrafficFlow : INotifyPropertyChanged
+    public class TrafficFlow : ModelBase
     {
         private string _id;
         private string _srcAddress;
@@ -76,25 +76,6 @@ namespace MikroTikMonitor.Models
         { 
             get => _interface; 
             set => SetProperty(ref _interface, value); 
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
-            {
-                return false;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
         }
     }
 }

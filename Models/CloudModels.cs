@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace MikroTikMonitor.Models
 {
-    public class CloudSite : INotifyPropertyChanged
+    public class CloudSite : ModelBase
     {
         private string _id;
         private string _name;
@@ -148,28 +148,9 @@ namespace MikroTikMonitor.Models
             get => _tags; 
             set => SetProperty(ref _tags, value); 
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
-            {
-                return false;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
     }
 
-    public class CloudDevice : INotifyPropertyChanged
+    public class CloudDevice : ModelBase
     {
         private string _id;
         private string _name;
@@ -408,25 +389,6 @@ namespace MikroTikMonitor.Models
         { 
             get => _freeStorage; 
             set => SetProperty(ref _freeStorage, value); 
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
-            {
-                return false;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
         }
     }
 }

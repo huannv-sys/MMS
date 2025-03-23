@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace MikroTikMonitor.Models
 {
-    public class CloudVpnUser : INotifyPropertyChanged
+    public class CloudVpnUser : ModelBase
     {
         private string _id;
         private string _username;
@@ -62,25 +62,6 @@ namespace MikroTikMonitor.Models
         { 
             get => _comment; 
             set => SetProperty(ref _comment, value); 
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
-            {
-                return false;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
         }
     }
 }
