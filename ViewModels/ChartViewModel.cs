@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
@@ -11,7 +9,7 @@ using SkiaSharp;
 
 namespace MikroTikMonitor.ViewModels
 {
-    public class ChartViewModel : INotifyPropertyChanged
+    public class ChartViewModel : ViewModelBase
     {
         private ObservableCollection<ISeries> _cpuSeries;
         private ObservableCollection<ISeries> _memoryUsageSeries;
@@ -247,24 +245,6 @@ namespace MikroTikMonitor.ViewModels
             txValues.Clear();
         }
 
-        // INotifyPropertyChanged implementation
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
-            {
-                return false;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
+        // INotifyPropertyChanged implementation is now handled by ViewModelBase
     }
 }

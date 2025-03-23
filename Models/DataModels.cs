@@ -6,70 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace MikroTikMonitor.Models
 {
-    public class ResourceUsage : INotifyPropertyChanged
-    {
-        private DateTime _timestamp;
-        private double _cpuUsage;
-        private double _memoryUsage;
-        private double _diskUsage;
-        private double _temperature;
-        private int _voltage;
-
-        public DateTime Timestamp 
-        { 
-            get => _timestamp; 
-            set => SetProperty(ref _timestamp, value); 
-        }
-        
-        public double CpuUsage 
-        { 
-            get => _cpuUsage; 
-            set => SetProperty(ref _cpuUsage, value); 
-        }
-        
-        public double MemoryUsage 
-        { 
-            get => _memoryUsage; 
-            set => SetProperty(ref _memoryUsage, value); 
-        }
-        
-        public double DiskUsage 
-        { 
-            get => _diskUsage; 
-            set => SetProperty(ref _diskUsage, value); 
-        }
-        
-        public double Temperature 
-        { 
-            get => _temperature; 
-            set => SetProperty(ref _temperature, value); 
-        }
-        
-        public int Voltage 
-        { 
-            get => _voltage; 
-            set => SetProperty(ref _voltage, value); 
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
-            {
-                return false;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-    }
+    // ResourceUsage class moved to dedicated file Models/ResourceUsage.cs
 
     public class NetworkInterface : INotifyPropertyChanged
     {
@@ -434,70 +371,7 @@ namespace MikroTikMonitor.Models
         }
     }
 
-    public class LogEntry : INotifyPropertyChanged
-    {
-        private string _id;
-        private DateTime _time;
-        private string _topics;
-        private string _message;
-        private string _facility;
-        private string _severity;
-
-        public string Id 
-        { 
-            get => _id; 
-            set => SetProperty(ref _id, value); 
-        }
-        
-        public DateTime Time 
-        { 
-            get => _time; 
-            set => SetProperty(ref _time, value); 
-        }
-        
-        public string Topics 
-        { 
-            get => _topics; 
-            set => SetProperty(ref _topics, value); 
-        }
-        
-        public string Message 
-        { 
-            get => _message; 
-            set => SetProperty(ref _message, value); 
-        }
-        
-        public string Facility 
-        { 
-            get => _facility; 
-            set => SetProperty(ref _facility, value); 
-        }
-        
-        public string Severity 
-        { 
-            get => _severity; 
-            set => SetProperty(ref _severity, value); 
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
-            {
-                return false;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-    }
+    // LogEntry class moved to dedicated file Models/LogEntry.cs
 
     public class FirewallRule : INotifyPropertyChanged
     {

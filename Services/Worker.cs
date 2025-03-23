@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using MikroTikMonitor.Models;
+using Timer = System.Timers.Timer;
 
 namespace MikroTikMonitor.Services
 {

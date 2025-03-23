@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
@@ -19,7 +17,7 @@ namespace MikroTikMonitor.ViewModels
     /// <summary>
     /// ViewModel for the main window
     /// </summary>
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : ViewModelBase
     {
         private readonly RouterApiService _routerApiService;
         private readonly SnmpService _snmpService;
@@ -329,23 +327,15 @@ namespace MikroTikMonitor.ViewModels
         /// <param name="value">The new value</param>
         /// <param name="propertyName">The name of the property</param>
         /// <returns>True if the value was changed, otherwise false</returns>
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(storage, value))
-                return false;
-                
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
+        // Let ViewModelBase handle SetProperty
         
         /// <summary>
         /// Raises the PropertyChanged event
         /// </summary>
         /// <param name="propertyName">The name of the property</param>
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            base.OnPropertyChanged(propertyName);
             
             // Update command states
             if (propertyName == nameof(SelectedRouter) || propertyName == nameof(IsConnecting))
@@ -457,58 +447,6 @@ namespace MikroTikMonitor.ViewModels
                     }
                 }
             });
-        }
-    }
-    
-    /// <summary>
-    /// A command that calls a delegate to execute and a delegate to determine if it can execute
-    /// </summary>
-    public class RelayCommand : ICommand
-    {
-        private readonly Action _execute;
-        private readonly Func<bool> _canExecute;
-        
-        /// <summary>
-        /// Initializes a new instance of the RelayCommand class
-        /// </summary>
-        /// <param name="execute">The execute delegate</param>
-        /// <param name="canExecute">The can execute delegate</param>
-        public RelayCommand(Action execute, Func<bool> canExecute = null)
-        {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            _canExecute = canExecute;
-        }
-        
-        /// <summary>
-        /// Occurs when the can execute state changes
-        /// </summary>
-        public event EventHandler CanExecuteChanged;
-        
-        /// <summary>
-        /// Determines whether the command can execute in its current state
-        /// </summary>
-        /// <param name="parameter">Data used by the command</param>
-        /// <returns>True if this command can be executed, otherwise false</returns>
-        public bool CanExecute(object parameter)
-        {
-            return _canExecute == null || _canExecute();
-        }
-        
-        /// <summary>
-        /// Executes the command
-        /// </summary>
-        /// <param name="parameter">Data used by the command</param>
-        public void Execute(object parameter)
-        {
-            _execute();
-        }
-        
-        /// <summary>
-        /// Raises the CanExecuteChanged event
-        /// </summary>
-        public void RaiseCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

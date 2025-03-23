@@ -349,7 +349,7 @@ namespace MikroTikMonitor.Services
             }
         }
 
-        public async Task<IEnumerable<LogEntry>> GetLogsAsync(RouterDevice device, int limit = A100)
+        public async Task<IEnumerable<LogEntry>> GetLogsAsync(RouterDevice device, int limit = 100)
         {
             var logs = new List<LogEntry>();
             
