@@ -6,6 +6,9 @@ using System.Runtime.CompilerServices;
 
 namespace MikroTikMonitor.Models
 {
+    /// <summary>
+    /// Represents a site in MikroTik Cloud
+    /// </summary>
     public class CloudSite : ModelBase
     {
         private string _id;
@@ -148,8 +151,35 @@ namespace MikroTikMonitor.Models
             get => _tags; 
             set => SetProperty(ref _tags, value); 
         }
+        
+        /// <summary>
+        /// Creates a new CloudSite instance from a CloudSiteDto
+        /// </summary>
+        public static CloudSite FromDto(CloudSiteDto dto)
+        {
+            if (dto == null) return null;
+            
+            return new CloudSite
+            {
+                Id = dto.Id,
+                Name = dto.Name,
+                Description = dto.Description,
+                Address = dto.Address,
+                Latitude = dto.Latitude ?? 0,
+                Longitude = dto.Longitude ?? 0,
+                ContactName = dto.ContactPerson,
+                ContactPhone = dto.ContactPhone,
+                ContactEmail = dto.ContactEmail,
+                CreatedOn = dto.CreatedAt,
+                LastUpdated = dto.UpdatedAt
+                // Other properties not available in DTO
+            };
+        }
     }
 
+    /// <summary>
+    /// Represents a MikroTik device registered in MikroTik Cloud
+    /// </summary>
     public class CloudDevice : ModelBase
     {
         private string _id;
@@ -389,6 +419,43 @@ namespace MikroTikMonitor.Models
         { 
             get => _freeStorage; 
             set => SetProperty(ref _freeStorage, value); 
+        }
+        
+        /// <summary>
+        /// Creates a new CloudDevice instance from a CloudDeviceDto
+        /// </summary>
+        public static CloudDevice FromDto(CloudDeviceDto dto)
+        {
+            if (dto == null) return null;
+            
+            var device = new CloudDevice
+            {
+                Id = dto.Id,
+                Name = dto.Name,
+                Model = dto.Model,
+                SerialNumber = dto.SerialNumber,
+                MacAddress = dto.MacAddress,
+                IpAddress = dto.PublicIpAddress,
+                RouterOsVersion = dto.RouterOsVersion,
+                HasVpnAccess = dto.IsVpnEnabled,
+                LastSeen = dto.LastSeen,
+                LastUpdated = dto.LastUpdateTime,
+                SiteId = dto.SiteId,
+                SiteName = dto.SiteName,
+                Status = dto.Status == "online" ? DeviceStatus.Online : DeviceStatus.Offline
+            };
+            
+            if (dto.Metadata != null)
+            {
+                device.Latitude = dto.Metadata.Latitude ?? 0;
+                device.Longitude = dto.Metadata.Longitude ?? 0;
+                device.ContactName = dto.Metadata.ContactPerson;
+                device.ContactEmail = dto.Metadata.ContactEmail;
+                device.ContactPhone = dto.Metadata.ContactPhone;
+                device.Notes = dto.Metadata.Notes;
+            }
+            
+            return device;
         }
     }
 }

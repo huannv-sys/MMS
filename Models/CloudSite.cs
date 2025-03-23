@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 namespace MikroTikMonitor.Models
 {
     /// <summary>
-    /// Represents a site in MikroTik Cloud
+    /// Represents a site in MikroTik Cloud for API serialization
     /// </summary>
-    public class CloudSite
+    public partial class CloudSiteDto
     {
         /// <summary>
         /// Gets or sets the unique ID of the site

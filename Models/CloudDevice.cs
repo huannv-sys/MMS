@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 namespace MikroTikMonitor.Models
 {
     /// <summary>
-    /// Represents a MikroTik device registered in MikroTik Cloud
+    /// Represents a MikroTik device registered in MikroTik Cloud for API serialization
     /// </summary>
-    public class CloudDevice
+    public partial class CloudDeviceDto
     {
         /// <summary>
         /// Gets or sets the unique ID of the device
@@ -90,13 +90,13 @@ namespace MikroTikMonitor.Models
         /// Gets or sets additional metadata for the device
         /// </summary>
         [JsonPropertyName("metadata")]
-        public CloudDeviceMetadata Metadata { get; set; }
+        public CloudDeviceMetadataDto Metadata { get; set; }
     }
 
     /// <summary>
-    /// Represents metadata for a MikroTik cloud device
+    /// Represents metadata for a MikroTik cloud device for API serialization
     /// </summary>
-    public class CloudDeviceMetadata
+    public partial class CloudDeviceMetadataDto
     {
         /// <summary>
         /// Gets or sets the latitude of the device location

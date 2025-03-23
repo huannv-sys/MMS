@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using Microsoft.Extensions.Configuration;
 using MikroTikMonitor.Models;
 using log4net;
+using Timer = System.Timers.Timer;
 
 namespace MikroTikMonitor.Services
 {

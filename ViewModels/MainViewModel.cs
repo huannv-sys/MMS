@@ -320,7 +320,7 @@ namespace MikroTikMonitor.ViewModels
         /// Raises the PropertyChanged event
         /// </summary>
         /// <param name="propertyName">The name of the property</param>
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected new void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
             
